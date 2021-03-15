@@ -43,15 +43,28 @@ def convert_list(text: str) -> Iterable[datetime]:
         date = datetime.strptime(date_str, DATEFORMAT).date()
         if date not in result:
             result.append(date)
-    return result.sort()
+    return result
 
 
 def find_streak(dates: Iterable[datetime]) -> Streak:
-    '''Finds the longest daily streak
+    '''
+    Finds the longest daily streak
 
     Outputs as a named tuple in the format: (start, end, length)
     '''
-    pass
+    longest = None
+    current = None
+    for date in sorted(dates):
+        if current is None or date - current.end > timedelta(days=1):
+            current = Streak(date, date, 1)
+            if longest is None:
+                longest = current
+            continue
+        length = date - current.start
+        current = Streak(current.start, date, length.days)
+        if longest.length < current.length:
+            longest = current
+    return longest
 
 
 def format_streak(value: Streak):
