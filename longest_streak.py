@@ -37,7 +37,7 @@ def longest_streak():
 def convert_list(text: str) -> Iterable[datetime]:
     '''Converts the text output of seed.py into a list of date objects'''
     result = []
-    text = text.strip('[]\n\t')
+    text = text.strip('[]\n\t ')
     for date_str in text.split(','):
         date_str = date_str.strip('\'\" ')
         date = datetime.strptime(date_str, DATEFORMAT).date()
