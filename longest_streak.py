@@ -68,14 +68,33 @@ def find_streak(dates: Iterable[datetime]) -> Streak:
 
 
 def format_streak(value: Streak):
-    '''Formats Streak named tuple as described in the README.md
+    '''
+    Formats Streak named tuple as described in the README.md
 
     e.g.:
     | START      | END        | LENGTH |
     |------------|------------|--------|
     | 2021-03-16 | 2021-03-18 |      3 |
     '''
-    pass
+    columns = [
+        ('START', value.start.strftime('%Y-%m-%d'), 'ljust'),
+        ('END', value.end.strftime('%Y-%m-%d'), 'ljust'),
+        ('LENGTH', str(value.length), 'rjust'),
+    ]
+    formatted_columns = []
+    for header, text, func in columns:
+        width = max(len(header), len(text))
+        header = header.ljust(width).center(width + 2)
+        sep = '-' * (width + 2)
+        method = getattr(text, func)
+        text = method(width).center(width + 2)
+        formatted_columns.append((header, sep, text,))
+    rows = []
+    for i in range(3):
+        items = [x[i] for x in formatted_columns]
+        row = '|'.join(items)
+        rows.append(''.join(['|', row, '|']))
+    return '\n'.join(rows)
 
 
 if __name__ == '__main__':
