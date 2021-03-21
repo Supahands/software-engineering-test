@@ -24,7 +24,7 @@ python.stdout.on('data', function(data) {
     );
 
     const loginDate = loginDateString.map(date => new Date(date));
-    console.log(loginDate);
+    //console.log(loginDate);
     const seriesLogins = [];
     seriesLogins.unshift(series);
     let currentStartDate = new Date();
