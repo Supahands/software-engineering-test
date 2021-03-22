@@ -1,5 +1,3 @@
-// Online Java Compiler
-// Use this editor to write, compile and run your Java code online
 import java.sql.Timestamp;    
 import java.util.Date;    
 import java.text.DateFormat;
