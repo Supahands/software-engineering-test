@@ -4,8 +4,8 @@ from random import randint
 import pandas as pd
 import numpy as np
 
-# start = datetime.now()
-# end = start + timedelta(days=60)
+start = datetime.now()
+end = start + timedelta(days=60)
 
 # for _ in range(10):
 #  if _ % 2 == 0:
@@ -15,17 +15,17 @@ import numpy as np
 #
 # step = timedelta(hours=value)
 
-result = ['2021-03-13 15:13:05', '2021-03-13 23:13:05', '2021-03-16 15:13:05', '2021-03-16 23:13:05', '2021-03-17 07:13:05', '2021-03-17 15:13:05', '2021-03-17 23:13:05', '2021-03-18 07:13:05', '2021-03-18 15:13:05']
+# result = ['2021-03-13 15:13:05', '2021-03-13 23:13:05', '2021-03-16 15:13:05', '2021-03-16 23:13:05', '2021-03-17 07:13:05', '2021-03-17 15:13:05', '2021-03-17 23:13:05', '2021-03-18 07:13:05', '2021-03-18 15:13:05']
 
-# result = []
+result = []
 
-# while start < end:
-#     result.append(start.strftime('%Y-%m-%d %H:%M:%S'))
-#     high_rand = randint(24, 72)
-#     low_rand = randint(5, 18)
-#     value = randint(low_rand, high_rand)
-#     step = timedelta(hours=value)
-#     start += step
+while start < end:
+    result.append(start.strftime('%Y-%m-%d %H:%M:%S'))
+    high_rand = randint(24, 72)
+    low_rand = randint(5, 18)
+    value = randint(low_rand, high_rand)
+    step = timedelta(hours=value)
+    start += step
 
 
 def consecutive_date_list(input_date_list):
