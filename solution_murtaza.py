@@ -1,62 +1,57 @@
 from seed import res
 from datetime import datetime
 
-# Converting list of string dates to datetime objects
-date_list = [datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S') for date_str in res]
-
-# Sorting the list in ascending order
-date_list.sort()
-
-# result will be a list of tuples: (start, end, length)
-result = []
-f = []
-
-# Initializing variables
-start = date_list[0]
-persistent_iterator = 0
-counter = 0
-end = date_list[0]
-
-for date in date_list[1:]:
-    # if two days are consecutive, increment counter and update end date of the series
-    if (date - date_list[persistent_iterator]).days == 1:
-        persistent_iterator += 1
-        counter += 1
-        end = date_list[persistent_iterator]
-    # Add the start date, end date and length of the series in the result list and result counters
-    else:
-        result.append((start.strftime('%Y-%m-%d'), end.strftime('%Y-%m-%d'), counter))
-        start = date
-        end = date
-        persistent_iterator += 1
-        counter = 0
-
-for ind, date in enumerate(date_list):
-    if ind == 0:
-        continue
-
-    # if two days are consecutive, increment counter and update end date of the series
-    if (date - date_list[ind - 1]).days == 1:
-        counter += 1
-        end = date_list[ind - 1]
-    # Add the start date, end date and length of the series in the result list and result counters
-    else:
-        result.append((start.strftime('%Y-%m-%d'), end.strftime('%Y-%m-%d'), counter))
-        start = date
-        end = date
-        counter = 0
-
 
 def length_of_series(x):
     return x[2]
 
 
-# Sorting result in descending order
-result = sorted(result, key=length_of_series, reverse=True)
+def derive_streaks(datelist):
 
-print('|  START   |    END   | LENGTH |')
-print('|----------|----------|--------|')
+    # result will be a list of tuples: (start, end, length)
+    result_list = []
 
-for record in result:
-    print("|{}|{}|   {}    |".format(record[0], record[1], record[2]))
+    # Initializing variables
+    start, end, counter = datelist[0], datelist[0], 0
 
+    for ind, date in enumerate(datelist):
+        if ind == 0:
+            continue
+
+        # if two days are consecutive, increment counter and update end date of the series
+        if (date - datelist[ind - 1]).days == 1:
+            counter += 1
+            end = datelist[ind]
+        # Add the start date, end date and length of the series in the result list and result counters
+        else:
+            result_list.append((start.strftime('%Y-%m-%d'), end.strftime('%Y-%m-%d'), counter))
+            start = date
+            end = date
+            counter = 0
+
+    return result_list
+
+
+def format_and_display_output(result):
+    print('|  START   |    END   | LENGTH |')
+    print('|----------|----------|--------|')
+
+    for record in result:
+        print("|{}|{}|   {}    |".format(record[0], record[1], record[2]))
+
+
+def main(date_str):
+    # Converting list of string dates to datetime objects
+    # Using set to get unique values
+    date_list = list(set([datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S').date() for date_str in res]))
+
+    # Sorting in ascending order
+    date_list.sort()
+
+    result = derive_streaks(date_list)
+
+    # Sorting result in descending order
+    result = sorted(result, key=length_of_series, reverse=True)
+
+    # Displaying output
+    format_and_display_output(result)
