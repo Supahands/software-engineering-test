@@ -1,0 +1,22 @@
+{
+  "name": "supahand-test",
+  "version": "1.0.0",
+  "description": "* This is a coding test for prospective supahands engineers.  * The seed file should not be modified, it is expected to generate a list of random timestamps to be used in the test",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ming517/software-engineering-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ming517/software-engineering-test/issues"
+  },
+  "homepage": "https://github.com/ming517/software-engineering-test#readme",
+  "dependencies": {
+    "date-fns": "^2.19.0"
+  }
+}
