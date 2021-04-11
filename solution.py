@@ -1,30 +1,9 @@
-# from datetime import date, time,timedelta,datetime
-# import datetime
 from datetime import date, datetime, timedelta
+import unittest
+import sys
 
 
-from dateutil.relativedelta import relativedelta
-from collections import Counter
-
-import seed 
-
-# Date in ISO 8601 format 
-# E.g. YYYY-MM-DD HH:MM:SS
-#steps to program
-# 1. parse dates into datetime.date format
-# 2. append each date to array
-# 3. sort array 
-# 4. Once sorted loop through and count consecutive days
-# 5. Once a consecutive streak ends append it to new array
-# 6. repeat step 4-6
-# 7. Create tabular display for each new row in new array
-# print(seed)
-
-
-
-
-    
-
+import seed
 
 
 def toDates(temp_list):
@@ -43,49 +22,61 @@ def toDates(temp_list):
 
     return date_list
 
+def consecCounter(date_list):
+    result = [] # 2D list to store both end 
 
-if __name__ == "__main__":
-    print("================================================================================================================================================")
-    temp_list = seed.res
-    temp_list = sorted(temp_list)
-    date_list = toDates(temp_list)
-    
-    
-    
-    result = [] # Dictionary to store results in 
-
-    start = date_list[0]
+    start = date_list[0] # Start set to first date
     consec_day = 1
-    temp_new = []
-    for end in date_list[1:]:
-        new = []
-        if (end - start).days == consec_day: #If there the next day is still consecutive
-            consec_day = consec_day + 1
-        else: #Next date no longer consecutive
-            new.append(start.strftime('%Y/%m/%d'))
-            temp_end = end - timedelta(days=1)
-            new.append(temp_end.strftime('%Y/%m/%d'))
+    for prev_end,curr_end in zip(date_list,date_list[1:]): # Uses zip to allow link to previous end
+        new = [] #New list used to create 2D list (will be appended into list)
+        if (curr_end - start).days == consec_day: #If there the next day is still consecutive
+            if(curr_end == prev_end): # Incase of duplicate dates
+                continue
+            consec_day = consec_day + 1 # Add to consec days
+           
+        elif(curr_end-start).days == 0: # Condition for dates that have less than one consec day
+            consec_day = 1 # To ensure that even though there are no consecutive days, it will always be counted as 1
+            new.append(start.strftime('%Y-%m-%d'))  # Append to internal list while also formatting date
+            new.append(start.strftime('%Y-%m-%d'))
+            new.append(consec_day) 
+            result.append(new) # Append internal list to main list
+            start = curr_end # Set start to the next date pair
+
+        else: # Next date no longer consecutive  
+            new.append(start.strftime('%Y-%m-%d'))
+            new.append(prev_end.strftime('%Y-%m-%d')) # Append previous end asto not append the next start aswell
             new.append(consec_day)
             result.append(new) 
-            # result[start] = consec_day
-            start = end
+            start = curr_end
             consec_day = 1
-    temp_new.append(start.strftime('%Y/%m/%d'))
-    temp_new.append(consec_day)
-    
-    # result[start] = consec_day
+
+    result = sorted(result, key=lambda x: x[2], reverse=True) # Sorting according to the length
+    return result
 
     
-    result = sorted(result, key=lambda x: x[2], reverse=True)
-    # result = sorted(result)
-    print("START\t\tEND\t\tLENGTH")
+
+if __name__ == "__main__":
+    
+    # test_date_conversion()
+    print("================================================================================================================================================")
+    temp_list = seed.res # Retrieve array of dates from seed.py
+    temp_list = sorted(temp_list) # Sort dates before conversion
+    date_list = toDates(temp_list) # Convert all dates to datetime format
+    result = consecCounter(date_list) # Count all consecutive days
+    print(date_list)
+    print(result)
+    
+    
+    
+    print("START\t\tEND\t\tLENGTH") # Printing table header
     print("--------------------------------------------")
+    # Printing 2D array with two for loops
     for inner_list in result:
         for result in inner_list:
-            print(result , end = "\t")
-        print("\n")
-        
-    # for i in sort_orders:
-    #     print(i[0], i[1])
-
+            print(result , end = "\t") # 4 line space between the dates and the length
+        print("\n") # Break line for next result
+    
+    
+    
+    
 
