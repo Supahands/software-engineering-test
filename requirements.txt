@@ -1,0 +1,7 @@
+It is assumed that pip is installed, and python v3 is used
+
+The library tabulate is required for this solution.
+It can be installed with this command:
+pip install tabulate
+or can be downloaded from this link:
+https://pypi.org/project/tabulate/#files
