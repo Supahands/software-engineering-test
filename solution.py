@@ -1,4 +1,5 @@
-import subprocess
+from io import StringIO
+import sys
 from tabulate import tabulate
 from datetime import datetime
 
@@ -71,7 +72,12 @@ def datesToTable(dates):
 
 def main():
     """Show the solution."""
-    output = subprocess.run("py seed.py", capture_output=True, text=True).stdout
+    old_stdout = sys.stdout
+    new_stdout = StringIO()
+    sys.stdout = new_stdout
+    exec(open('seed.py').read())
+    output = new_stdout.getvalue()
+    sys.stdout = old_stdout
     dates = sortTimeStamps(output)
     toTable = getConsecDates(dates)
     print(datesToTable(toTable))
