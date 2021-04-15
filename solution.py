@@ -17,7 +17,8 @@ def process(l):
     l = sorted({datetime.datetime.fromisoformat(i).date() for i in l})
 
     # move each parts into each group of (start, end) if adjacent day
-    acc = [(i := l.pop(0), i)]
+    i = l.pop(0)
+    acc = [(i, i)]
     for i in l:
         if acc[-1][1] + d == i:  # if subsequent day
             acc[-1] = (acc[-1][0], i)  # change end day
