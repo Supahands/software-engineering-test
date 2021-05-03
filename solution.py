@@ -55,15 +55,17 @@ class Login:
                 self.loginCount == other.loginCount)
 
 
-# read date from seed.py to clean it
+# step1: read date from seed.py to clean it
 loginData = subprocess.run(
     ['python', "seed.py"], capture_output=True, text=True)
 dateTimeList = loginData.stdout.replace("[", "").replace("]", "").strip().replace(
     "'", "").replace(", ", ",").split(",")
 
-
+#step2: get list of dates from cleaned input
 dateList = getDatefromCleanedInputs(dateTimeList)
 
+#step3: compute login summary
 consecutiveDayCountList = calculateLoginSummary(dateList)
 
+#step 4: print a reverse sorted list of login attempts summary
 printLoginSummaryAsTable(consecutiveDayCountList)
