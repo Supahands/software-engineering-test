@@ -1,0 +1,89 @@
+from datetime import datetime
+from datetime import timedelta
+from random import randint
+from random import sample
+
+start = datetime.now()
+end = start+timedelta(days=60)
+
+# for _ in range(10):
+#  if _ % 2 == 0:
+#   value = randint(1, 12)
+#  else:
+#   value = randint(24, 48) 
+
+# step = timedelta(hours=value)
+
+result = []
+
+while start < end:
+    result.append(start.strftime('%Y-%m-%d %H:%M:%S'))
+    high_rand = randint(24, 72)
+    low_rand = randint(5,18)
+    value = randint(low_rand, high_rand) 
+    step = timedelta(hours=value)
+    start += step
+
+res = sample(result,len(result))
+
+# print(res)
+################# Uptil here seed.py ##################
+################# Above code should be replaced by the below line #################
+# from seed import res
+#### program executed by using online compiler https://www.programiz.com/python-programming/online-compiler/ ###
+
+
+# Class
+class loginDetails: 
+    def __init__(self, start, end, counter): 
+        self.start = start 
+        self.end = end 
+        self.counter = counter
+        
+# function to convert string array to dates array.
+def parseDatesArray(res):
+    dates = [datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S').date() for date_str in res]
+    # sorting dates in asc order.
+    dates.sort()
+    return dates    
+
+# function to get unique values
+def unique(list1):
+    # intilize a null list
+    unique_list = []
+    # traverse for all elements
+    for x in list1:
+        # check if exists in unique_list or not
+        if x not in unique_list:
+            unique_list.append(x)
+    return unique_list
+        
+        
+# converting list to date array.
+dates = parseDatesArray(res)
+dates = unique(dates)
+#print(dates)
+
+index = 0
+counter=1
+end = dates[0]
+start = dates[0]
+result = []
+
+for date in dates[1:]:
+    if (date - dates[index]).days == 1:
+        counter+=1
+        index+=1
+        end = dates[index]
+        
+    else:
+        result.append(loginDetails(start.strftime('%Y-%m-%d'), end.strftime('%Y-%m-%d'), counter))
+        start = date
+        end = date
+        index+=1
+        counter = 1
+
+print('__START___', '____END___', '_____DAYS_____', sep = ' || ')
+for obj in result:
+    print(obj.start, obj.end, obj.counter, sep = ' || ')
+
