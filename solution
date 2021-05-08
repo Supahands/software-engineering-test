@@ -28,7 +28,9 @@ res = sample(result,len(result))
 
 # print(res)
 ################# Uptil here seed.py ##################
-#### Used by program executed by using online compiler https://www.programiz.com/python-programming/online-compiler/ ###
+################# Above code should be replaced by the below line #################
+# from seed import res
+#### program executed by using online compiler https://www.programiz.com/python-programming/online-compiler/ ###
 
 
 # Class
